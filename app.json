@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "ForkFast",
+    "slug": "forkfast-food-delivery",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#FF5A1F"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.forkfast.app"
+    },
+    "android": {
+      "package": "com.forkfast.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FF5A1F"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
