@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Retail Readiness Calculator — ShelfReady</title>
+  <meta name="description" content="Free calculator: find your cost per unit, real gross margin, and a suggested retail price for your food product — instantly, no signup required." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍯</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">S</span>
+        ShelfReady
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="calculator.html" class="active">Calculator</a></li>
+        <li><a href="wizard.html">Get started</a></li>
+        <li><a href="index.html#waitlist">Waitlist</a></li>
+      </ul>
+      <a href="index.html#waitlist" class="btn btn-primary nav-cta">Join the waitlist</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+      </button>
+    </nav>
+    <div class="mobile-menu">
+      <a href="index.html#how-it-works">How it works</a>
+      <a href="calculator.html">Calculator</a>
+      <a href="wizard.html">Get started</a>
+      <a href="index.html#waitlist">Waitlist</a>
+      <a href="index.html#waitlist" class="btn btn-primary btn-block">Join the waitlist</a>
+    </div>
+  </header>
+
+  <main>
+    <section style="padding-bottom: 0;">
+      <div class="container">
+        <div class="section-head" style="margin-bottom: 30px;">
+          <span class="eyebrow">Free tool</span>
+          <h2>Retail Readiness Calculator</h2>
+          <p>Enter your batch costs below. Your cost per unit, margin, and verdict update instantly as you type — nothing is sent anywhere.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top: 0;">
+      <div class="container">
+        <div class="calc-layout">
+
+          <!-- INPUT CARD -->
+          <div class="card">
+            <h2 style="font-size:1.3rem;">Your recipe & costs</h2>
+            <p class="card-sub">All figures are per batch unless noted. Not sure of exact numbers? Estimates are fine — you can always come back.</p>
+
+            <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 4px;">
+              <label for="recipe-name" style="margin-bottom:0;">Recipe name</label>
+              <button type="button" class="btn-ghost btn" id="load-example">Load an example</button>
+            </div>
+            <div class="field">
+              <input type="text" id="recipe-name" placeholder="Grandma's Hot Sauce" />
+            </div>
+
+            <fieldset>
+              <label style="margin-bottom: 10px;">Ingredients used per batch</label>
+              <table class="ingredients" id="ingredients-table">
+                <thead>
+                  <tr>
+                    <th style="width:38%;">Ingredient</th>
+                    <th style="width:28%;">Quantity used</th>
+                    <th style="width:28%;">Cost for batch ($)</th>
+                    <th class="col-remove"></th>
+                  </tr>
+                </thead>
+                <tbody id="ingredients-body"></tbody>
+              </table>
+              <div class="ingredients-actions">
+                <button type="button" class="btn btn-ghost" id="add-row">+ Add ingredient</button>
+                <span class="ingredients-total">Total ingredient cost: <strong id="ingredients-total">$0.00</strong></span>
+              </div>
+            </fieldset>
+
+            <div class="field-row field-row-2">
+              <div class="field">
+                <label for="batch-yield">Batch yield (units produced)</label>
+                <input type="number" id="batch-yield" min="0" step="1" placeholder="e.g. 24" />
+              </div>
+              <div class="field">
+                <label for="packaging-cost">Packaging cost per unit ($)</label>
+                <input type="number" id="packaging-cost" min="0" step="0.01" placeholder="e.g. 0.85" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="target-price">Target retail (shelf) price per unit ($)</label>
+              <input type="number" id="target-price" min="0" step="0.01" placeholder="e.g. 8.99" />
+              <p class="field-hint">The price you picture a customer paying on the shelf — not what you'd be paid wholesale.</p>
+            </div>
+          </div>
+
+          <!-- RESULTS CARD -->
+          <div class="card calc-results">
+            <h2 style="font-size:1.3rem;">Your results</h2>
+            <p class="card-sub">Updates live as you type.</p>
+
+            <div id="results-placeholder" class="calc-placeholder">
+              <p>Enter your batch yield and target retail price to see your numbers.</p>
+            </div>
+
+            <div id="results-content" class="hidden">
+              <div class="verdict neutral" id="verdict-box">
+                <div class="verdict-icon" id="verdict-icon">–</div>
+                <div>
+                  <h4 id="verdict-title">–</h4>
+                  <p id="verdict-desc">–</p>
+                </div>
+              </div>
+
+              <div class="results-list">
+                <div class="result-row">
+                  <div class="result-label">Cost per unit<span class="sub">ingredients + packaging</span></div>
+                  <div class="result-value" id="out-cost-per-unit">$0.00</div>
+                </div>
+                <div class="result-row">
+                  <div class="result-label">Implied wholesale price<span class="sub">what you'd be paid, after retailer's cut</span></div>
+                  <div class="result-value" id="out-wholesale">$0.00</div>
+                </div>
+                <div class="result-row">
+                  <div class="result-label">Your gross margin<span class="sub">at your target retail price</span></div>
+                  <div class="result-value" id="out-margin">0%</div>
+                </div>
+                <div class="result-row">
+                  <div class="result-label">Suggested retail price<span class="sub">for a healthy margin at wholesale</span></div>
+                  <div class="result-value suggested" id="out-suggested">$0.00</div>
+                </div>
+              </div>
+
+              <details class="math-toggle">
+                <summary>How is this calculated?</summary>
+                <div class="math-detail">
+                  <div><span>Ingredient cost per unit</span><span id="math-ingredient-per-unit">$0.00</span></div>
+                  <div><span>+ Packaging cost per unit</span><span id="math-packaging-per-unit">$0.00</span></div>
+                  <div><span>= Cost per unit</span><span id="math-cost-per-unit">$0.00</span></div>
+                  <div><span>Wholesale price (retail ÷ 2)</span><span id="math-wholesale">$0.00</span></div>
+                  <div><span>Margin = (wholesale − cost) ÷ wholesale</span><span id="math-margin">0%</span></div>
+                  <div><span>Suggested retail = cost per unit × 4</span><span id="math-suggested">$0.00</span></div>
+                </div>
+              </details>
+
+              <p class="field-hint" style="margin-top:16px;">
+                Estimates only, based on the numbers you enter. We assume a retailer takes roughly a
+                50% margin (standard "keystone" pricing) — this is a planning tool, not compliance or
+                food-safety advice.
+              </p>
+
+              <div class="results-cta" id="results-cta">
+                <h4>Want the full picture?</h4>
+                <p>Join the waitlist and we'll send you a full Retail Readiness Report for this recipe, plus guidance on formulation and packaging.</p>
+                <form class="mini-form" data-waitlist-form>
+                  <input type="hidden" name="recipe" id="cta-recipe-hidden" />
+                  <input type="email" name="email" placeholder="you@email.com" required autocomplete="email" />
+                  <button type="submit" class="btn btn-primary">Get my full report</button>
+                </form>
+                <div class="success-box" data-success style="margin-top:12px;">
+                  <div class="success-icon">✓</div>
+                  <h3>You're on the list!</h3>
+                  <p>We'll follow up with your full Retail Readiness Report.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container-narrow text-center">
+        <h2>Like what you see?</h2>
+        <p style="color:var(--ink-soft);">Take the next step with our short intake wizard — it's optional and takes just a few minutes.</p>
+        <a href="wizard.html" class="btn btn-secondary">Start the intake wizard</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <a href="index.html" class="brand">
+          <span class="brand-mark">S</span>
+          ShelfReady
+        </a>
+        <ul class="footer-links">
+          <li><a href="calculator.html">Retail Readiness Calculator</a></li>
+          <li><a href="wizard.html">Intake wizard</a></li>
+          <li><a href="index.html#waitlist">Waitlist</a></li>
+        </ul>
+      </div>
+      <p class="disclaimer">
+        This calculator provides cost and margin estimates only, based on numbers you enter. It is
+        not legal, regulatory, financial, or food-safety advice, and should not be treated as
+        authoritative guidance on FDA labeling or compliance requirements. Always consult a
+        qualified co-packer, regulatory consultant, and your local health department before
+        producing or selling a food product commercially.
+      </p>
+      <p class="footer-bottom">© 2026 ShelfReady. A validation-stage project — we're testing demand, not yet a production service.</p>
+    </div>
+  </footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/calculator.js"></script>
+</body>
+</html>
